@@ -1,0 +1,97 @@
+Adding books
+borrowing book 
+return book
+display books
+exit
+package Examples;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+	public class Library {
+		    private List<Book1> books = new ArrayList<>();
+		    private int nextBookId = 1;
+		    private Map<String, List<Book1>> userBooks = new HashMap<>();
+		    private List<User> users = new ArrayList<>();
+
+		    public void addUser(String username, String password) {
+		        users.add(new User(username, password));
+		    }
+
+		    public boolean authenticateUser(String username, String password) {
+		        for (User user : users) {
+		            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+		                return true;
+		            }
+		        }
+		        return false;
+		    }
+
+		    public void addBook(String title, String author) {
+		        Book1 book = new Book1(nextBookId, title, author);
+		        books.add(book);
+		        nextBookId++;
+		    }
+
+		    public void displayBooks() {
+		        System.out.println("Books in the Library:");
+		        for (Book1 book : books) {
+		            System.out.println(book);
+		        }
+		    }
+
+		    public Book1 findBookById(int id) {
+		        for (Book1 book : books) {
+		            if (book.getId() == id) {
+		                return book;
+		            }
+		        }
+		        return null;
+		    }
+
+		    public void removeBook(int id) {
+		        Book1 bookToRemove = findBookById(id);
+		        if (bookToRemove != null) {
+		            books.remove(bookToRemove);
+		            System.out.println("Book removed successfully.");
+		        } else {
+		            System.out.println("Book not found.");
+		        }
+		    }
+		    public void borrowBook(String username, int bookId) {
+		        if (!userBooks.containsKey(username)) {
+		            userBooks.put(username, new ArrayList<>());
+		        }
+
+		        Book1 book = findBookById(bookId);
+		        if (book != null) {
+		            userBooks.get(username).add(book);
+		            books.remove(book);
+		            System.out.println("Book borrowed successfully.");
+		        } else {
+		            System.out.println("Book not found.");
+		        }
+		    }
+		    public void returnBook(String username, int bookId) {
+		        if (userBooks.containsKey(username)) {
+		            List<Book1> userBooksList = userBooks.get(username);
+		            Book1 bookToReturn = findBookById(bookId);
+
+		            if (bookToReturn != null && userBooksList.contains(bookToReturn)) {
+		                userBooksList.remove(bookToReturn);
+		                books.add(bookToReturn);
+		                System.out.println("Book returned successfully.");
+		            } else {
+		                System.out.println("Book not found in your borrowed list.");
+		            }
+		        } else {
+		            System.out.println("User not found.");
+		        }
+		    }
+
+		    public List<Book1> getUserBooks(String username) {
+		        return userBooks.getOrDefault(username, new ArrayList<>());
+		    }
+	}
