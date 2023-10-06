@@ -1,0 +1,72 @@
+starting execution
+
+package Examples;
+
+import java.util.Scanner;
+
+public class LibraryManagement {
+
+	    public static void main(String[] args) {
+	        Library library = new Library();
+	        Scanner scanner = new Scanner(System.in);
+	        
+	        // adding a user for demonstration
+	        library.addUser("user1", "password1");
+
+	        while (true) {
+	            System.out.println("\nLibrary Management System Menu:");
+	            System.out.println("1. Add Book");
+	            System.out.println("2. Display Books");
+	            System.out.println("3. Remove Book");
+	            System.out.println("4. Borrow Book");
+	            System.out.println("5. Return Book");
+	            System.out.println("6. Exit");
+	            System.out.print("Enter your choice: ");
+
+	            int choice = scanner.nextInt();
+
+	            switch (choice) {
+	                case 1:
+	                    scanner.nextLine(); // Consume the newline character
+	                    System.out.print("Enter book title: ");
+	                    String title = scanner.nextLine();
+	                    System.out.print("Enter author name: ");
+	                    String author = scanner.nextLine();
+	                    library.addBook(title, author);
+	                    System.out.println("Book added successfully.");
+	                    break;
+	                case 2:
+	                	library.displayBooks();
+	                    break;
+	                case 3:
+	                    System.out.print("Enter the ID of the book to remove: ");
+	                    int bookIdToRemove = scanner.nextInt();
+	                    library.removeBook(bookIdToRemove);
+	                    break;
+	                case 4:
+	                    scanner.nextLine(); // Consume the newline character
+	                    System.out.print("Enter your username: ");
+	                    String borrowUsername = scanner.nextLine();
+	                    System.out.print("Enter the ID of the book to borrow: ");
+	                    int bookIdToBorrow = scanner.nextInt();
+	                    library.borrowBook(borrowUsername, bookIdToBorrow);
+	                    break;
+	                case 5:
+	                    scanner.nextLine(); // Consume the newline character
+	                    System.out.print("Enter your username: ");
+	                    String returnUsername = scanner.nextLine();
+	                    System.out.print("Enter the ID of the book to return: ");
+	                    int bookIdToReturn = scanner.nextInt();
+	                    library.returnBook(returnUsername, bookIdToReturn);
+	                    break;
+	                    
+	                case 6:
+	                    System.out.println("Exiting Library Management System.");
+	                    scanner.close();
+	                    System.exit(0);
+	                default:
+	                    System.out.println("Invalid choice. Please try again.");
+	            }
+	        }
+	    }
+}
